@@ -5,7 +5,6 @@ import hashlib
 app = Flask(__name__)
 app.secret_key = 'ADET' 
 
-# MySQL Database connection configuration
 db_config = {
     'host': 'localhost',
     'user': 'root',  
@@ -16,37 +15,37 @@ db_config = {
 @app.route('/', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Collect form data
+        
         registration_data = {
             'first_name': request.form.get('first_name'),
             'middle_name': request.form.get('middle_name'),
             'last_name': request.form.get('last_name'),
-            'birthdate': request.form.get('birthdate'),
+            'contact_number': request.form.get('contact_number'),  
             'email': request.form.get('email'),
             'address': request.form.get('address'),
-            'password': hashlib.sha256(request.form.get('password').encode()).hexdigest()  # SHA-256 encryption
+            'password': hashlib.sha256(request.form.get('password').encode()).hexdigest()  
         }
 
         try:
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
 
-            # Check if email already exists
+            
             cursor.execute("SELECT email FROM adet_user WHERE email = %s", (registration_data['email'],))
             if cursor.fetchone():
                 flash("This email is already registered. Please use another email.", "error")
                 return redirect(url_for('register'))
 
-            # Insert data into database
+            
             sql = """
-            INSERT INTO adet_user (first_name, middle_name, last_name, birthdate, email, address, password)
+            INSERT INTO adet_user (first_name, middle_name, last_name, contact_number, email, address, password)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(sql, (
                 registration_data['first_name'],
                 registration_data['middle_name'],
                 registration_data['last_name'],
-                registration_data['birthdate'],
+                registration_data['contact_number'],  
                 registration_data['email'],
                 registration_data['address'],
                 registration_data['password']
@@ -72,7 +71,7 @@ def success():
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = hashlib.sha256(request.form.get('password').encode()).hexdigest()  # SHA-256 encryption
+        password = hashlib.sha256(request.form.get('password').encode()).hexdigest()  
 
         try:
             conn = mysql.connector.connect(**db_config)
@@ -83,7 +82,7 @@ def login():
             conn.close()
 
             if user:
-                session['email'] = email  # Store user email in session
+                session['email'] = email  
                 return redirect(url_for('dashboard'))
             else:
                 flash("Invalid credentials. Please try again.", "danger")
@@ -103,7 +102,7 @@ def dashboard():
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT first_name, middle_name, last_name, birthdate, email, address FROM adet_user WHERE email = %s", (user_email,))
+        cursor.execute("SELECT first_name, middle_name, last_name, contact_number, email, address FROM adet_user WHERE email = %s", (user_email,))
         user = cursor.fetchone()
         cursor.close()
         conn.close()
@@ -114,7 +113,7 @@ def dashboard():
 
 @app.route('/logout')
 def logout():
-    session.pop('email', None)  # Remove the email from the session
+    session.pop('email', None)  
     return redirect(url_for('login'))
 
 if __name__ == '__main__':

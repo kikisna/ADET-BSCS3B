@@ -3,7 +3,6 @@ import json
 
 app = Flask(__name__)
 
-# Function to save data to JSON file
 def save_to_json(data):
     try:
         with open('data.json', 'r') as file:
@@ -22,25 +21,23 @@ def registration_form():
 
 @app.route('/register', methods=['POST'])
 def register():
-    # Collect data from the form
+
     first_name = request.form['first_name']
     middle_name = request.form['middle_name']
     last_name = request.form['last_name']
-    birthdate = request.form['birthdate']
+    contact_number = request.form['contact_number']  
     email = request.form['email']
     address = request.form['address']
 
-    # Create a dictionary of the user's data
     user_data = {
         'First Name': first_name,
         'Middle Name': middle_name,
         'Last Name': last_name,
-        'Birthdate': birthdate,
+        'Contact Number': contact_number,  
         'Email Address': email,
         'Address': address
     }
 
-    # Save the data to a JSON file
     save_to_json(user_data)
 
     return redirect('/')

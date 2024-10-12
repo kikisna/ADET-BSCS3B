@@ -10,36 +10,42 @@
             background: linear-gradient(to right, #6a11cb, #2575fc);
             background-attachment: fixed;
             color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; 
+            padding: 0 20px;
         }
         .container {
-            max-width: 700px; /* Width of the form */
-            margin: auto;
-            margin-top: 30px; /* Reduced top margin */
-            padding: 15px; /* Reduced padding for smaller height */
-            border-radius: 15px;
+            max-width: 600px; 
+            padding: 20px; 
+            border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.95);
-            color: black; /* Ensure text color is visible */
+            color: black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
         }
         h1 {
             background-color: #007bff;
             color: white;
             text-align: center;
             padding: 10px;
-            margin-bottom: 15px; /* Reduced space below header */
-            font-size: 1.5rem; /* Smaller font size */
+            margin-bottom: 15px; 
+            font-size: 1.25rem; 
         }
         label, input {
-            color: black; /* Ensure labels and inputs have black text */
+            color: black;
         }
         input {
-            width: 90%; /* Set input fields to 90% of the container width */
-            margin: auto; /* Center the input fields */
+            width: 100%; 
+            margin-bottom: 10px;
         }
-        /* For smaller screens, ensure the form remains responsive */
+        .mb-3 {
+            margin-bottom: 10px;
+        }
         @media (max-width: 768px) {
             .container {
-                max-width: 100%; /* Allow the form to take up full width on smaller screens */
-                padding: 10px; /* Reduced padding on smaller screens */
+                max-width: 100%; 
+                padding: 10px;
             }
         }
     </style>
@@ -62,8 +68,8 @@
                 <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your last name" required>
             </div>
             <div class="mb-3">
-                <label for="birthdate" class="form-label">Birthdate</label>
-                <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                <label for="contact_number" class="form-label">Contact Number</label>
+                <input type="text" class="form-control" id="contact_number" name="contact_number" placeholder="Enter your contact number" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email Address</label>
